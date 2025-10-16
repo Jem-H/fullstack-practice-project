@@ -1,10 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/products")
+      .then((res) => {
+        if (res.ok) {
+          console.log("Backend reachable and CORS working");
+        } else {
+          console.warn("Backend reachable but CORS may be misconfigured");
+        }
+      })
+      .catch((err) => {
+        console.error("Backend unreachable or CORS blocked", err);
+      });
+  }, []);
 
   return (
     <>
@@ -29,7 +43,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
